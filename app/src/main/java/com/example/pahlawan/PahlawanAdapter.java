@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,16 +19,19 @@ import java.util.ArrayList;
 public class PahlawanAdapter extends RecyclerView.Adapter<PahlawanAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<PahlawanModel> pahlawanModels;
+    private ArrayList<PahlawanModel> listPahlawan = new ArrayList<>();
 
-    public PahlawanAdapter(Context context) {
+    public PahlawanAdapter(Context context, ArrayList<PahlawanModel> listPahlawan) {
         this.context = context;
+        this.listPahlawan = listPahlawan;
     }
-    public ArrayList<PahlawanModel> getPahlawanModels(){
-        return pahlawanModels;
-   }
-   public void setPahlawanModels (ArrayList<PahlawanModel> pahlawanModels) {
-        this.pahlawanModels = pahlawanModels;
+
+    public ArrayList<PahlawanModel> getListPahlawan() {
+        return listPahlawan;
+    }
+
+    public void setPahlawanModels (ArrayList<PahlawanModel> pahlawanModels) {
+        this.listPahlawan = pahlawanModels;
    }
 
 
@@ -38,25 +43,38 @@ public class PahlawanAdapter extends RecyclerView.Adapter<PahlawanAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PahlawanAdapter.ViewHolder viewHolder, int i) {
-        Glide.with(context).load(getPahlawanModels().get(i).getGambarPahlawan()).into(viewHolder.ivGambarPahlawan);
+    public void onBindViewHolder(@NonNull PahlawanAdapter.ViewHolder holder, final int position) {
+        holder.tvHeroName.setText(getListPahlawan().get(position).getNamaPahlawan());
+        holder.tvHeroDetail.setText(getListPahlawan().get(position).getDescPahlawan());
 
-        viewHolder.tvNamaPahlawan.setText(getPahlawanModels().get(i).getNamaPahlawan());
+        Glide.with(context).load(getListPahlawan().get(position).getGambarPahlawan()).into(holder.ivHero);
+
+        holder.cvHero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Nama Pahlawan : " + getListPahlawan().get(position).getNamaPahlawan(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-
-        return pahlawanModels.size();
+        return listPahlawan.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView ivGambarPahlawan;
-        private TextView tvNamaPahlawan;
-        public ViewHolder(@NonNull View itemView){
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivHero;
+        TextView tvHeroName,tvHeroDetail;
+        CardView cvHero;
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivGambarPahlawan = itemView.findViewById(R.id.gambar_pahlawan);
-            tvNamaPahlawan = itemView.findViewById(R.id.nama_pahlawan);
+
+            ivHero = itemView.findViewById(R.id.itempahlawan_iv);
+            tvHeroDetail = itemView.findViewById(R.id.itempahlawan_tv_pahlawandetail);
+            tvHeroName = itemView.findViewById(R.id.itempahalawn_tv_nama);
+
+            cvHero = itemView.findViewById(R.id.itempahlawan_cv);
         }
     }
 }

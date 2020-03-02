@@ -45,18 +45,18 @@ public class PahlawanData {
             R.drawable.tan_malaka
     };
 
-    public static ArrayList<PahlawanModel> getListData(){
-        PahlawanModel pahlawanModel = null;
+    public static ArrayList<PahlawanModel> getHeroList(){
+        PahlawanModel heroes = null;
         ArrayList<PahlawanModel> list = new ArrayList<>();
 
-        for (int position = 0; position < heroNames.length; position++) {
-            pahlawanModel = new PahlawanModel();
-            pahlawanModel.setGambarPahlawan(heroesImages[position]);
-            pahlawanModel.setNamaPahlawan(heroNames[position]);
-            pahlawanModel.setDescPahlawan(heroDetails[position]);
-            list.add(pahlawanModel);
-        }
+        for (int i = 0; i < heroNames.length; i++){
+            heroes = new PahlawanModel();
+            heroes.setNamaPahlawan(heroNames[i]);
+            heroes.setDescPahlawan(heroDetails[i]);
+            heroes.setGambarPahlawan(heroesImages[i]);
 
+            list.add(heroes);
+        }
         return list;
     }
 }
